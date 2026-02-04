@@ -283,7 +283,7 @@ export default function MemberEmbeddingModal({ open, onClose, member }: Props) {
         <DialogTitle>
           <Box display="flex" alignItems="center" gap={1}>
             <BodyBiometricIcon />
-            <Typography variant="h6">Collect Body Embedding – {member?.first_name || ""}</Typography>
+            <Typography variant="h6">Manage Body Embedding – {member?.first_name || ""} {member?.last_name || ""}</Typography>
           </Box>
         </DialogTitle>
 
@@ -303,21 +303,42 @@ export default function MemberEmbeddingModal({ open, onClose, member }: Props) {
                   </Select>
                 </FormControl>
 
-                <IconButton color="success" onClick={handleStart} disabled={isCollecting || loading}>
+                <IconButton
+                  color="success"
+                  title="Start capture"
+                  onClick={handleStart}
+                  disabled={isCollecting || loading}
+                >
                   <PlayArrowIcon />
                 </IconButton>
 
-                <IconButton color="warning" onClick={handleStop} disabled={!isCollecting || loading}>
+                <IconButton
+                  color="warning"
+                  title="Stop capture"
+                  onClick={handleStop}
+                  disabled={!isCollecting || loading}
+                >
                   <StopIcon />
                 </IconButton>
 
-                <IconButton color="primary" onClick={handleExtract} disabled={loading}>
+                <IconButton
+                  color="primary"
+                  title="Extract embeddings"
+                  onClick={handleExtract}
+                  disabled={loading}
+                >
                   <DownloadIcon />
                 </IconButton>
 
-                <IconButton color="error" onClick={handleRemove} disabled={loading}>
+                <IconButton
+                  color="error"
+                  title="Remove embeddings for selected camera"
+                  onClick={handleRemove}
+                  disabled={loading}
+                >
                   <DeleteIcon />
                 </IconButton>
+
               </Box>
 
               <Divider sx={{ my: 1 }} />

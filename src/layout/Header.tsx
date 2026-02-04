@@ -27,7 +27,7 @@ export default function Header({ onToggle, collapsed }: any) {
                         <MenuIcon />
                     </IconButton>
 
-                    <Typography variant="h6">ReID Admin</Typography>
+                    <Typography variant="h6">CBT ReID Admin</Typography>
                 </Box>
 
                 <Box display="flex" alignItems="center" gap={1}>

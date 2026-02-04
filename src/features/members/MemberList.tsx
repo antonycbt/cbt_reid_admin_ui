@@ -19,6 +19,7 @@ import MemberEmbeddingModal from "./MemberEmbeddingModal";
 
 import { api } from "../../api/axios";
 import { useSnackbar } from "../../components/snackbar/useSnackbar";
+import { Chip } from "@mui/material";
 
 export default function MemberList() {
   /* -------------------- UI STATE -------------------- */
@@ -107,25 +108,51 @@ export default function MemberList() {
 
   /* -------------------- COLUMNS -------------------- */
   const columns = [
-    { field: "member_number", headerName: "Member No", flex: 1.5 },
-    { field: "first_name", headerName: "First Name", flex: 2 },
-    { field: "last_name", headerName: "Last Name", flex: 2 },
-    {
-      field: "department",
-      headerName: "Department",
-      flex: 2,
-      valueGetter: (_: any, row: any) =>
-        row?.department?.name ?? "-",
-    },
-    {
-      field: "is_active",
-      headerName: "Status",
-      width: 140,
-      renderCell: (params: any) =>
-        params.value ? "Active" : "Inactive",
-    },
-  ];
+  { field: "member_number", headerName: "No.", flex: 1.5 },
 
+  {
+    field: "full_name",
+    headerName: "Name",
+    flex: 2.5,
+    valueGetter: (_: any, row: any) =>
+      `${row?.first_name ?? ""} ${row?.last_name ?? ""}`.trim() || "-",
+  },
+
+  {
+    field: "department",
+    headerName: "Department",
+    flex: 2,
+    valueGetter: (_: any, row: any) =>
+      row?.department?.name ?? "-",
+  }, 
+  {
+    field: "has_embeddings",
+    headerName: "Embedding",
+    width: 160,
+    renderCell: (params: any) =>
+      params.value ? (
+        <Chip
+          label="Added"
+          size="small"
+          sx={{
+            bgcolor: "#22c55e",
+            color: "white",
+            fontWeight: 500,
+          }}
+        />
+      ) : (
+        <Chip
+          label="Not Added"
+          size="small"
+          sx={{
+            bgcolor: "#9ca3af",
+            color: "white",
+            fontWeight: 500,
+          }}
+        />
+      ),
+  } 
+]; 
   /* -------------------- RENDER -------------------- */
   return (
     <Box>
@@ -214,6 +241,7 @@ export default function MemberList() {
       <MemberEmbeddingModal
         open={embeddingOpen}
         onClose={() => {
+          fetchMembers();
           setEmbeddingOpen(false);
           setSelected(null);
         }}
