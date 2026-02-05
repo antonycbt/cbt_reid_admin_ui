@@ -24,6 +24,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import { api } from "../../api/axios";
 import BodyBiometricIcon from "../../components/icons/BodyBiometricIcon";
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
+
 
 interface Props {
   open: boolean;
@@ -280,10 +283,25 @@ export default function MemberEmbeddingModal({ open, onClose, member }: Props) {
   return (
     <>
       <Dialog open={open} onClose={() => { onClose(); }} maxWidth="sm" fullWidth>
+        <Backdrop
+          open={loading}
+          sx={{
+            position: "absolute",
+            zIndex: 10,
+            color: "#00e5ff",
+            backgroundColor: "rgba(0,0,0,0.35)",
+            flexDirection: "column",
+            gap: 1,
+          }}
+        >
+          <CircularProgress color="inherit" />
+          <Typography variant="caption">Processing… please wait</Typography>
+        </Backdrop>
+
         <DialogTitle>
           <Box display="flex" alignItems="center" gap={1}>
             <BodyBiometricIcon />
-            <Typography variant="h6">Manage Body Embedding – {member?.first_name || ""} {member?.last_name || ""}</Typography>
+            <Typography variant="h6">Manage Embedding – {member?.first_name || ""} {member?.last_name || ""}</Typography>
           </Box>
         </DialogTitle>
 
@@ -349,8 +367,8 @@ export default function MemberEmbeddingModal({ open, onClose, member }: Props) {
                   {progress ? (
                     <>
                       <Typography variant="caption" sx={{ display: "block", mb: 0.5 }}>
-                        {progress.stage ?? "extracting"} — {progress.percent ?? 0}%
-                        {progress.camera_id ? ` (camera ${progress.camera_id})` : ""}
+                        {progress.stage ?? "extracting"} — {progress.percent ?? 0}% 
+                        {/* {progress.camera_id ? ` (camera ${progress.camera_id})` : ""} */}
                       </Typography>
                       <LinearProgress variant="determinate" value={Math.max(0, Math.min(100, Number(progress.percent ?? 0)))} />
                     </>
